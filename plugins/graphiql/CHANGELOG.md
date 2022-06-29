@@ -1,5 +1,12 @@
 # @backstage/plugin-graphiql
 
+## 0.2.39-next.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/core-components@0.10.0-next.2
+
 ## 0.2.39-next.1
 
 ### Patch Changes

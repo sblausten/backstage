@@ -1,5 +1,11 @@
 # @backstage/core-components
 
+## 0.10.0-next.2
+
+### Minor Changes
+
+- 32204fa794: Add `transformLinkUri` and `transformImageUri` to `MarkdownContent`
+
 ## 0.9.6-next.1
 
 ### Patch Changes
