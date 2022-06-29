@@ -1100,6 +1100,9 @@ function createBinRunner(cwd: string, path: string) {
         },
         (err, stdout, stderr) => {
           if (err) {
+            console.log('DEBUG: err =', err);
+            console.log('DEBUG: err =', err.code);
+            console.log('DEBUG: err =', err.status);
             reject(new Error(`${err.message}\n${stderr}`));
           } else if (stderr) {
             reject(new Error(`Command printed error output: ${stderr}`));

@@ -23,7 +23,20 @@ const main = (argv: string[]) => {
 
   registerCommands(program);
 
+  program.on('command:*', () => {
+    console.error();
+    console.error(`Invalid command: ${program.args.join(' ')}`);
+    console.error();
+    program.outputHelp();
+    process.exit(1);
+  });
+
   program.parse(argv);
 };
+
+process.on('unhandledRejection', rejection => {
+  console.error(`Unhandled rejection ${rejection}`);
+  process.exit(2);
+});
 
 main(process.argv);
