@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Backend Service APIs · Backstage Software Catalog and Developer Platform</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Service APIs for backend plugins"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Backend Service APIs · Backstage Software Catalog and Developer Platform"/><meta property="og:type" content="website"/><meta property="og:url" content="https://backstage.io/"/><meta property="og:description" content="Service APIs for backend plugins"/><meta property="og:image" content="https://backstage.io/img/sharing-opengraph.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://backstage.io/img/twitter-summary.png"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css"/><link rel="alternate" type="application/atom+xml" href="https://backstage.io/blog/atom.xml" title="Backstage Software Catalog and Developer Platform Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://backstage.io/blog/feed.xml" title="Backstage Software Catalog and Developer Platform Blog RSS Feed"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-KSEVGGNCJW"></script><script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments); }
+              gtag('js', new Date());
+              gtag('config', 'G-KSEVGGNCJW');
+            </script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:500,700&amp;display=swap"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://unpkg.com/medium-zoom@1.0.6/dist/medium-zoom.min.js"></script><script type="text/javascript" src="/js/medium-zoom.js"></script><script type="text/javascript" src="/js/dismissable-banner.js"></script><script type="text/javascript" src="/js/scroll-nav-to-view-in-docs.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><h2 class="headerTitle">Backstage Software Catalog and Developer Platform</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="https://github.com/backstage/backstage" target="_self">GitHub</a></li><li class=""><a href="/docs/overview/what-is-backstage" target="_self">Docs</a></li><li class=""><a href="/plugins" target="_self">Plugins</a></li><li class=""><a href="/blog" target="_self">Blog</a></li><li class=""><a href="/docs/releases/v1.10.0" target="_self">Releases</a></li><li class=""><a href="/demos" target="_self">Demos</a></li><li class=""><a href="/community" target="_self">Community</a></li><li class="navSearchWrapper reactNavSearchWrapper"><input type="text" id="search_input_react" placeholder="Search" title="Search"/></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docsContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/backstage/backstage/edit/master/docs/backend-system/architecture/03-services.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 id="__docusaurus" class="postHeaderTitle">Backend Service APIs</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="backend-services"></a><a href="#backend-services" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Backend Services</h2>
+<p>The default backend provides several <a href="https://github.com/backstage/backstage/blob/master/packages/backend-plugin-api/src/services/definitions/coreServices.ts">core services</a> out of the box which includes access to configuration, logging, databases and more.
+Service dependencies are declared using their <code>ServiceRef</code>s in the <code>deps</code> section of the plugin or module, and the implementations are then forwarded to the <code>init</code> method of the plugin or module.</p>
+<h3><a class="anchor" aria-hidden="true" id="service-references"></a><a href="#service-references" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Service References</h3>
+<p>A <code>ServiceRef</code> is a named reference to an interface which are later used to resolve the concrete service implementation. Conceptually this is very similar to <code>ApiRef</code>s in the frontend.
+Services is what provides common utilities that previously resided in the <code>PluginEnvironment</code> such as Config, Logging and Database.</p>
+<p>On startup the backend will make sure that the services are initialized before being passed to the plugin/module that depend on them.
+ServiceRefs contain a scope which is used to determine if the serviceFactory creating the service will create a new instance scoped per plugin/module or if it will be shared. <code>plugin</code> scoped services will be created once per plugin/module and <code>root</code> scoped services will be created once per backend instance.</p>
+<h4><a class="anchor" aria-hidden="true" id="defining-a-service"></a><a href="#defining-a-service" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Defining a Service</h4>
+<pre><code class="hljs css language-ts"><span class="hljs-keyword">import</span> {
+  createServiceFactory,
+  coreServices,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'@backstage/backend-plugin-api'</span>;
+<span class="hljs-keyword">import</span> { ExampleImpl } <span class="hljs-keyword">from</span> <span class="hljs-string">'./ExampleImpl'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> ExampleApi {
+  doSomething(): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt;;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> exampleServiceRef = createServiceRef&lt;ExampleApi&gt;({
+  id: <span class="hljs-string">'example'</span>,
+  scope: <span class="hljs-string">'plugin'</span>, <span class="hljs-comment">// can be 'root' or 'plugin'</span>
+
+  <span class="hljs-comment">// The defaultFactory is optional to implement but it will be used if no</span>
+  <span class="hljs-comment">// other factory is provided to the backend. This allows for the backend</span>
+  <span class="hljs-comment">// to provide a default implementation of the service without having to wire</span>
+  <span class="hljs-comment">// it beforehand.</span>
+  defaultFactory: <span class="hljs-keyword">async</span> service =&gt;
+    createServiceFactory({
+      service,
+      deps: {
+        logger: coreServices.logger,
+        plugin: coreServices.pluginMetadata,
+      },
+      <span class="hljs-comment">// This root context method is only available for plugin scoped services.</span>
+      <span class="hljs-comment">// It's only called once per backend instance.</span>
+      <span class="hljs-comment">// Logger is available at the root context level as it's also a root</span>
+      <span class="hljs-comment">// scoped service.</span>
+      createRootContext({ logger }) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ExampleImplFactory({ logger });
+      },
+      <span class="hljs-comment">// Plugin is available as it's a plugin scoped service and will be</span>
+      <span class="hljs-comment">// created once per plugin. The logger can be had here too if needed.</span>
+      <span class="hljs-comment">// Both this anc the root context can also be async.</span>
+      factory({ logger, plugin }, rootContext) {
+        <span class="hljs-comment">// This block will be executed once for every plugin that depends on</span>
+        <span class="hljs-comment">// this service</span>
+        logger.info(<span class="hljs-string">'Initializing example service plugin instance'</span>);
+        <span class="hljs-keyword">return</span> rootContext.forPlugin(plugin.getId());
+      },
+    }),
+});
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="overriding-services"></a><a href="#overriding-services" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overriding Services</h3>
+<p>In this example we replace the default root logger service implementation with a custom one that streams logs to GCP. The <code>rootLoggerServiceRef</code> has a <code>'root'</code> scope, meaning there are no plugin-specific instances of this service.</p>
+<pre><code class="hljs css language-ts"><span class="hljs-keyword">import</span> {
+  createServiceFactory,
+  rootLoggerServiceRef,
+  LoggerService,
+} <span class="hljs-keyword">from</span> <span class="hljs-string">'@backstage/backend-plugin-api'</span>;
+
+<span class="hljs-comment">// This custom implementation would typically live separately from</span>
+<span class="hljs-comment">// the backend setup code, either nearby such as in</span>
+<span class="hljs-comment">//   packages/backend/src/services/logger/GoogleCloudLogger.ts</span>
+<span class="hljs-comment">// Or you can let it live in its own library package.</span>
+<span class="hljs-keyword">class</span> GoogleCloudLogger <span class="hljs-keyword">implements</span> LoggerService {
+  <span class="hljs-keyword">static</span> factory = createServiceFactory({
+    service: rootLoggerServiceRef,
+    deps: {},
+    factory() {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> GoogleCloudLogger();
+    },
+  });
+  <span class="hljs-comment">// custom implementation here ...</span>
+}
+
+<span class="hljs-comment">// packages/backend/src/index.ts</span>
+<span class="hljs-keyword">const</span> backend = createBackend({
+  services: [
+    <span class="hljs-comment">// supplies additional or replacement services to the backend</span>
+    GoogleCloudLogger.factory(),
+  ],
+});
+</code></pre>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/19/2023</em></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#backend-services">Backend Services</a><ul class="toc-headings"><li><a href="#service-references">Service References</a></li><li><a href="#overriding-services">Overriding Services</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div class="footer-title"><a href="/"><h2 class="footerLogo"></h2></a></div><div><h5>Docs</h5><a href="/docs/overview/what-is-backstage">What is Backstage?</a><a href="/docs/getting-started/">Getting started</a><a href="/docs/features/software-catalog/software-catalog-overview">Software Catalog</a><a href="/docs/plugins/create-a-plugin">Create a Plugin</a><a href="/docs/dls/design">Designing for Backstage</a></div><div><h5>Community</h5><a href="https://discord.gg/MUpMjP2">Support chatroom</a><a href="https://github.com/backstage/backstage/blob/master/CONTRIBUTING.md">Contributing</a><a href="https://backstage.spotify.com">Adopting</a><a href="https://github.com/backstage/community">Community Sessions</a><a href="https://info.backstage.spotify.com/newsletter_subscribe">Subscribe to our newsletter</a><a href="https://www.cncf.io/projects/">CNCF Incubation</a></div><div><h5>More</h5><a href="https://spotify.github.io/">Open Source @ Spotify</a><a href="https://engineering.atspotify.com/">Spotify Engineering Blog</a><a href="https://developer.spotify.com/">Spotify for Developers</a><a href="https://github.com/backstage/backstage">GitHub</a><a class="github-button" href="https://github.com/backstage/backstage" data-icon="octicon-star" data-count-href="/backstage/backstage/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a><div class="social"><a href="https://twitter.com/SpotifyEng" class="twitter-follow-button">Follow @SpotifyEng</a></div></div></section><p style="text-align:center"><a href="https://spotify.github.io">Made with ❤️ at Spotify</a></p><p class="copyright">Copyright © 2023 Backstage Project Authors. All rights reserved. The Linux Foundation has registered trademarks and uses trademarks. For a list of trademarks of The Linux Foundation, please see our Trademark Usage page: https://www.linuxfoundation.org/trademark-usage</p></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+                document.addEventListener('keyup', function(e) {
+                  if (e.target !== document.body) {
+                    return;
+                  }
+                  // keyCode for '/' (slash)
+                  if (e.keyCode === 191) {
+                    const search = document.getElementById('search_input_react');
+                    search && search.focus();
+                  }
+                });
+              </script><script>
+              var search = docsearch({
+                
+                apiKey: '8d115c9875ba0f4feaee95bab55a1645',
+                indexName: 'backstage',
+                inputSelector: '#search_input_react'
+              });
+            </script></body></html>
