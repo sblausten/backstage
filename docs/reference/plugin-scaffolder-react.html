@@ -11,6 +11,7 @@
 </thead>
 <tbody>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.createscaffolderfieldextension">createScaffolderFieldExtension(options)</a></td><td>Method for creating field extensions that can be used in the scaffolder frontend form.</td></tr>
+<tr><td><a href="/docs/reference/plugin-scaffolder-react.createscaffolderlayout">createScaffolderLayout(options)</a></td><td>Method for creating custom Layouts that can be used in the scaffolder frontend form</td></tr>
 </tbody>
 </table>
 <h2><a class="anchor" aria-hidden="true" id="interfaces"></a><a href="#interfaces" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Interfaces</h2>
@@ -20,6 +21,7 @@
 </thead>
 <tbody>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.fieldextensioncomponentprops">FieldExtensionComponentProps</a></td><td>Type for field extensions and being able to type incoming props easier.</td></tr>
+<tr><td><a href="/docs/reference/plugin-scaffolder-react.layoutoptions">LayoutOptions</a></td><td>The type of layouts that is passed to the TemplateForms</td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.scaffolderapi">ScaffolderApi</a></td><td>An API to interact with the scaffolder backend.</td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.scaffolderdryrunoptions">ScaffolderDryRunOptions</a></td><td></td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.scaffolderdryrunresponse">ScaffolderDryRunResponse</a></td><td></td></tr>
@@ -39,8 +41,10 @@
 <tbody>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.scaffolderapiref">scaffolderApiRef</a></td><td></td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.scaffolderfieldextensions">ScaffolderFieldExtensions</a></td><td>The Wrapping component for defining fields extensions inside</td></tr>
+<tr><td><a href="/docs/reference/plugin-scaffolder-react.scaffolderlayouts">ScaffolderLayouts</a></td><td>The wrapping component for defining scaffolder layouts as children</td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.secretscontextprovider">SecretsContextProvider</a></td><td>The Context Provider that holds the state for the secrets.</td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.usecustomfieldextensions">useCustomFieldExtensions</a></td><td>Hook that returns all custom field extensions from the current outlet.</td></tr>
+<tr><td><a href="/docs/reference/plugin-scaffolder-react.usecustomlayouts">useCustomLayouts</a></td><td>Hook that returns all custom field extensions from the current outlet.</td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.usetemplatesecrets">useTemplateSecrets</a></td><td>Hook to access the secrets context to be able to set secrets that are passed to the Scaffolder backend.</td></tr>
 </tbody>
 </table>
@@ -54,8 +58,11 @@
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.actionexample">ActionExample</a></td><td>A single action example</td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.customfieldextensionschema">CustomFieldExtensionSchema</a></td><td>Type for the Custom Field Extension schema.</td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.customfieldvalidator">CustomFieldValidator</a></td><td>Field validation type for Custom Field Extensions.</td></tr>
-<tr><td><a href="/docs/reference/plugin-scaffolder-react.fieldextensioncomponent">FieldExtensionComponent</a></td><td>A type used to wrap up the FieldExtension to embed the ReturnValue and the InputProps</td></tr>
+<tr><td><a href="/docs/reference/plugin-scaffolder-react.fieldextensioncomponent">FieldExtensionComponent</a></td><td>The type used to wrap up the Layout and embed the input props</td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.fieldextensionoptions">FieldExtensionOptions</a></td><td>Type for the Custom Field Extension with the name and components and validation function.</td></tr>
+<tr><td><a href="/docs/reference/plugin-scaffolder-react.formprops">FormProps</a></td><td>Any <code>@rjsf/core</code> form properties that are publicly exposed to the <code>NextScaffolderpage</code></td></tr>
+<tr><td><a href="/docs/reference/plugin-scaffolder-react.layoutcomponent">LayoutComponent</a></td><td>A type used to wrap up the FieldExtension to embed the ReturnValue and the InputProps</td></tr>
+<tr><td><a href="/docs/reference/plugin-scaffolder-react.layouttemplate">LayoutTemplate</a></td><td>The field template from <code>@rjsf/core</code> which is a react component that gets passed <code>@rjsf/core</code> field related props.</td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.listactionsresponse">ListActionsResponse</a></td><td>The response shape for the <code>listActions</code> call to the <code>scaffolder-backend</code></td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.logevent">LogEvent</a></td><td>The shape of a <code>LogEvent</code> message from the <code>scaffolder-backend</code></td></tr>
 <tr><td><a href="/docs/reference/plugin-scaffolder-react.scaffolderoutputlink">ScaffolderOutputLink</a></td><td></td></tr>

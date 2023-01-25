@@ -65,51 +65,52 @@ infrastructure needs - CI/CD, monitoring, auditing, and more.</p>
 <h2><a class="anchor" aria-hidden="true" id="adding-existing-plugins-to-your-app"></a><a href="#adding-existing-plugins-to-your-app" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding existing plugins to your app</h2>
 <p>The following steps assume that you have
 <a href="/docs/getting-started/create-an-app">created a Backstage app</a> and want to add an existing plugin
-to it. We are using the
+to it.</p>
+<p>We are using the
 <a href="https://github.com/backstage/backstage/blob/master/plugins/circleci/README.md">CircleCI</a>
-plugin in this example.</p>
+plugin in this example, which is designed to show CI/CD pipeline information attached
+to an entity in the software catalog.</p>
 <ol>
-<li>Add the plugin's npm package to the repo:</li>
-</ol>
+<li><p>Add the plugin's npm package to the repo:</p>
 <pre><code class="hljs css language-bash">yarn workspace app add @backstage/plugin-circleci
 </code></pre>
 <p>Note the plugin is added to the <code>app</code> package, rather than the root
-package.json. Backstage Apps are set up as monorepos with
-<a href="https://classic.yarnpkg.com/en/docs/workspaces/">yarn workspaces</a>. Since
-CircleCI is a frontend UI plugin, it goes in <code>app</code> rather than <code>backend</code>.</p>
-<ol start="2">
-<li>Add the <code>EntityCircleCIContent</code> extension to the entity pages in the app:</li>
-</ol>
-<pre><code class="hljs css language-diff"> // packages/app/src/components/catalog/EntityPage.tsx
+<code>package.json</code>. Backstage Apps are set up as monorepos with
+<a href="https://classic.yarnpkg.com/en/docs/workspaces/">Yarn workspaces</a>. Since
+CircleCI is a frontend UI plugin, it goes in <code>app</code> rather than <code>backend</code>.</p></li>
+<li><p>Add the <code>EntityCircleCIContent</code> extension to the entity pages in the app:</p>
+<pre><code class="hljs css language-diff">// packages/app/src/components/catalog/EntityPage.tsx
 <span class="hljs-addition">+import {</span>
 <span class="hljs-addition">+  EntityCircleCIContent,</span>
 <span class="hljs-addition">+  isCircleCIAvailable,</span>
 <span class="hljs-addition">+} from '@backstage/plugin-circleci';</span>
 
 ...
- const cicdContent = (
-   &lt;EntitySwitch&gt;
-     ...
+const cicdContent = (
+  &lt;EntitySwitch&gt;
+    ...
 <span class="hljs-addition">+     &lt;EntitySwitch.Case if={isCircleCIAvailable}&gt;</span>
 <span class="hljs-addition">+       &lt;EntityCircleCIContent /&gt;</span>
 <span class="hljs-addition">+     &lt;/EntitySwitch.Case&gt;;</span>
-   &lt;/EntitySwitch&gt;
- );
+  &lt;/EntitySwitch&gt;
+);
 </code></pre>
 <p>This is just one example, but each Backstage instance may integrate content or
-cards to suit their needs on different pages, tabs, etc. Note that stand-alone
-plugins that are not &quot;attached&quot; to the Software Catalog would be added outside
-the <code>EntityPage</code>.</p>
-<ol start="4">
-<li>[Optional] Add proxy config:</li>
-</ol>
+cards to suit their needs on different pages, tabs, etc. In addition, while some
+plugins such as this example are designed to annotate or support specific software
+catalog entities, others may be intended to be used in a stand-alone fashion and
+would be added outside the <code>EntityPage</code>, such as being added to the main navigation.</p></li>
+<li><p><em>[Optional]</em> Add a proxy config:</p>
+<p>Plugins that collect data off of external services may require the use of a proxy service.
+This plugin accesses the CircleCI REST API, and thus requires a proxy definition.</p>
 <pre><code class="hljs css language-yaml"><span class="hljs-string">//</span> <span class="hljs-string">app-config.yaml</span>
 <span class="hljs-attr">proxy:</span>
   <span class="hljs-string">'/circleci/api'</span><span class="hljs-string">:</span>
     <span class="hljs-attr">target:</span> <span class="hljs-string">https://circleci.com/api/v1.1</span>
     <span class="hljs-attr">headers:</span>
       <span class="hljs-attr">Circle-Token:</span> <span class="hljs-string">${CIRCLECI_AUTH_TOKEN}</span>
-</code></pre>
+</code></pre></li>
+</ol>
 <h3><a class="anchor" aria-hidden="true" id="adding-a-plugin-page-to-the-sidebar"></a><a href="#adding-a-plugin-page-to-the-sidebar" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Adding a plugin page to the Sidebar</h3>
 <p>In a standard Backstage app created with
 <a href="/docs/getting-started/create-an-app">@backstage/create-app</a>, the sidebar is managed inside
@@ -150,7 +151,7 @@ customizing the experience you can group <code>SidebarItems</code> in a <code>Si
 </code></pre>
 <p>If no <code>SidebarGroup</code> is provided a default menu will display the <code>Sidebar</code>
 content.</p>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/19/2023</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/getting-started/running-backstage-locally"><span class="arrow-prev">← </span><span>Running Backstage Locally</span></a><a class="docs-next button" href="/docs/getting-started/app-custom-theme"><span>Customize the look-and-feel of your App</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#adding-existing-plugins-to-your-app">Adding existing plugins to your app</a><ul class="toc-headings"><li><a href="#adding-a-plugin-page-to-the-sidebar">Adding a plugin page to the Sidebar</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div class="footer-title"><a href="/"><h2 class="footerLogo"></h2></a></div><div><h5>Docs</h5><a href="/docs/overview/what-is-backstage">What is Backstage?</a><a href="/docs/getting-started/">Getting started</a><a href="/docs/features/software-catalog/software-catalog-overview">Software Catalog</a><a href="/docs/plugins/create-a-plugin">Create a Plugin</a><a href="/docs/dls/design">Designing for Backstage</a></div><div><h5>Community</h5><a href="https://discord.gg/MUpMjP2">Support chatroom</a><a href="https://github.com/backstage/backstage/blob/master/CONTRIBUTING.md">Contributing</a><a href="https://backstage.spotify.com">Adopting</a><a href="https://github.com/backstage/community">Community Sessions</a><a href="https://info.backstage.spotify.com/newsletter_subscribe">Subscribe to our newsletter</a><a href="https://www.cncf.io/projects/">CNCF Incubation</a></div><div><h5>More</h5><a href="https://spotify.github.io/">Open Source @ Spotify</a><a href="https://engineering.atspotify.com/">Spotify Engineering Blog</a><a href="https://developer.spotify.com/">Spotify for Developers</a><a href="https://github.com/backstage/backstage">GitHub</a><a class="github-button" href="https://github.com/backstage/backstage" data-icon="octicon-star" data-count-href="/backstage/backstage/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a><div class="social"><a href="https://twitter.com/SpotifyEng" class="twitter-follow-button">Follow @SpotifyEng</a></div></div></section><p style="text-align:center"><a href="https://spotify.github.io">Made with ❤️ at Spotify</a></p><p class="copyright">Copyright © 2023 Backstage Project Authors. All rights reserved. The Linux Foundation has registered trademarks and uses trademarks. For a list of trademarks of The Linux Foundation, please see our Trademark Usage page: https://www.linuxfoundation.org/trademark-usage</p></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 1/25/2023</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/getting-started/running-backstage-locally"><span class="arrow-prev">← </span><span>Running Backstage Locally</span></a><a class="docs-next button" href="/docs/getting-started/app-custom-theme"><span>Customize the look-and-feel of your App</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#adding-existing-plugins-to-your-app">Adding existing plugins to your app</a><ul class="toc-headings"><li><a href="#adding-a-plugin-page-to-the-sidebar">Adding a plugin page to the Sidebar</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div class="footer-title"><a href="/"><h2 class="footerLogo"></h2></a></div><div><h5>Docs</h5><a href="/docs/overview/what-is-backstage">What is Backstage?</a><a href="/docs/getting-started/">Getting started</a><a href="/docs/features/software-catalog/software-catalog-overview">Software Catalog</a><a href="/docs/plugins/create-a-plugin">Create a Plugin</a><a href="/docs/dls/design">Designing for Backstage</a></div><div><h5>Community</h5><a href="https://discord.gg/MUpMjP2">Support chatroom</a><a href="https://github.com/backstage/backstage/blob/master/CONTRIBUTING.md">Contributing</a><a href="https://backstage.spotify.com">Adopting</a><a href="https://github.com/backstage/community">Community Sessions</a><a href="https://info.backstage.spotify.com/newsletter_subscribe">Subscribe to our newsletter</a><a href="https://www.cncf.io/projects/">CNCF Incubation</a></div><div><h5>More</h5><a href="https://spotify.github.io/">Open Source @ Spotify</a><a href="https://engineering.atspotify.com/">Spotify Engineering Blog</a><a href="https://developer.spotify.com/">Spotify for Developers</a><a href="https://github.com/backstage/backstage">GitHub</a><a class="github-button" href="https://github.com/backstage/backstage" data-icon="octicon-star" data-count-href="/backstage/backstage/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a><div class="social"><a href="https://twitter.com/SpotifyEng" class="twitter-follow-button">Follow @SpotifyEng</a></div></div></section><p style="text-align:center"><a href="https://spotify.github.io">Made with ❤️ at Spotify</a></p><p class="copyright">Copyright © 2023 Backstage Project Authors. All rights reserved. The Linux Foundation has registered trademarks and uses trademarks. For a list of trademarks of The Linux Foundation, please see our Trademark Usage page: https://www.linuxfoundation.org/trademark-usage</p></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>window.twttr=(function(d,s, id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src='https://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);t._e = [];t.ready = function(f) {t._e.push(f);};return t;}(document, 'script', 'twitter-wjs'));</script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
