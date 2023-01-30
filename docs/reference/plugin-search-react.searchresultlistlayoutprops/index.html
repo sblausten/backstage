@@ -7,11 +7,12 @@
 <p>Props for <a href="/docs/reference/plugin-search-react.searchresultlistlayout">SearchResultListLayout()</a></p>
 <p><b>Signature:</b></p>
 <pre><code class="hljs css language-typescript"><span class="hljs-keyword">type</span> SearchResultListLayoutProps = ListProps &amp; {
-    resultItems?: SearchResult[];
-    renderResultItem?: <span class="hljs-function">(<span class="hljs-params">value: SearchResult, index: <span class="hljs-built_in">number</span>, array: SearchResult[]</span>) =&gt;</span> JSX.Element | <span class="hljs-literal">null</span>;
     error?: <span class="hljs-built_in">Error</span>;
     loading?: <span class="hljs-built_in">boolean</span>;
+    resultItems?: SearchResult[];
+    renderResultItem?: <span class="hljs-function">(<span class="hljs-params">value: SearchResult, index: <span class="hljs-built_in">number</span>, array: SearchResult[]</span>) =&gt;</span> JSX.Element | <span class="hljs-literal">null</span>;
     noResultsComponent?: ReactNode;
+    disableRenderingWithNoResults?: <span class="hljs-built_in">boolean</span>;
 };
 </code></pre>
 <p><b>References:</b> <a href="/docs/reference/plugin-search-common.searchresult">SearchResult</a></p>
