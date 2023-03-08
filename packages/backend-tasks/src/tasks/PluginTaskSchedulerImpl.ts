@@ -26,6 +26,8 @@ import {
   TaskScheduleDefinition,
 } from './types';
 import { validateId } from './util';
+import { ConflictError } from '@backstage/errors';
+import { DB_TASKS_TABLE, DbTasksRow } from '../database/tables';
 
 /**
  * Implements the actual task management.
@@ -93,6 +95,29 @@ export class PluginTaskSchedulerImpl implements PluginTaskScheduler {
       );
 
       this.localTasksById.set(task.id, worker);
+    }
+  }
+
+  async unscheduleTask(taskId: string): Promise<void> {
+    validateId(taskId);
+
+    const knex = await this.databaseFactory();
+    const rows = await knex<DbTasksRow>(DB_TASKS_TABLE)
+      .select(knex.raw(1))
+      .where('id', '=', taskId);
+    if (rows.length !== 1) {
+      this.logger.info(
+        `unscheduleTask failed as task ${taskId} does not exist`,
+      );
+      return;
+    }
+
+    const updatedRows = await knex<DbTasksRow>(DB_TASKS_TABLE)
+      .where('id', '=', taskId)
+      .whereNull('current_run_ticket')
+      .delete();
+    if (updatedRows < 1) {
+      throw new ConflictError(`Task ${taskId} is currently running`);
     }
   }
 

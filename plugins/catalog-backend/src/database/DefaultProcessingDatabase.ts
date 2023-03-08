@@ -306,7 +306,7 @@ export class DefaultProcessingDatabase implements ProcessingDatabase {
    * Add a set of deferred entities for processing.
    * The entities will be added at the front of the processing queue.
    */
-  private async addUnprocessedEntities(
+  async addUnprocessedEntities(
     txOpaque: Transaction,
     options: {
       sourceEntityRef: string;
@@ -366,7 +366,7 @@ export class DefaultProcessingDatabase implements ProcessingDatabase {
       });
       if (conflictingKey) {
         this.options.logger.warn(
-          `DefaultProcessingDatabase - Detected conflicting entityRef ${entityRef} already referenced by ${locationKey} and now also ${conflictingKey}`,
+          `DefaultProcessingDatabase - Detected conflicting entityRef ${entityRef} already referenced by ${conflictingKey} and now also ${locationKey}`,
         );
         if (options.conflictHandler) {
           await options.conflictHandler({
@@ -376,6 +376,7 @@ export class DefaultProcessingDatabase implements ProcessingDatabase {
             originalLocationKey: conflictingKey,
             newLocationKey: locationKey!,
             logger: this.options.logger,
+            processingDatabase: this,
           });
         }
       }

@@ -295,6 +295,15 @@ export interface PluginTaskScheduler {
   ): Promise<void>;
 
   /**
+   * Removes a scheduled task.
+   *
+   * Throws ConflictError if task is currently running so the unscheduleTask can be retried
+   *
+   * @param taskId - The task id
+   */
+  unscheduleTask(taskId: string): Promise<void>;
+
+  /**
    * Creates a scheduled but dormant recurring task, ready to be launched at a
    * later time.
    *

@@ -17,6 +17,7 @@
 import { Entity } from '@backstage/catalog-model';
 import { Knex } from 'knex';
 import { Logger } from 'winston';
+import { ProcessingDatabase } from '../database/types';
 
 /**
  * A filter expression for entities.
@@ -325,4 +326,5 @@ export type ConflictHandlerOptions = {
   originalLocationKey: string;
   newLocationKey: string;
   logger: Logger;
+  processingDatabase?: ProcessingDatabase;
 };

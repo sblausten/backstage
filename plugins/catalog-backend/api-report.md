@@ -23,6 +23,7 @@ import { CatalogProcessorRefreshKeysResult } from '@backstage/plugin-catalog-nod
 import { CatalogProcessorRelationResult } from '@backstage/plugin-catalog-node';
 import { CatalogProcessorResult } from '@backstage/plugin-catalog-node';
 import { Config } from '@backstage/config';
+import { DateTime } from 'luxon';
 import { DeferredEntity } from '@backstage/plugin-catalog-node';
 import { DocumentCollatorFactory } from '@backstage/plugin-search-common';
 import { Entity } from '@backstage/catalog-model';
@@ -32,6 +33,7 @@ import { EntityProviderConnection } from '@backstage/plugin-catalog-node';
 import { EntityProviderMutation } from '@backstage/plugin-catalog-node';
 import { EntityRelationSpec } from '@backstage/plugin-catalog-node';
 import { GetEntitiesRequest } from '@backstage/catalog-client';
+import { JsonObject } from '@backstage/types';
 import { JsonValue } from '@backstage/types';
 import { Knex } from 'knex';
 import { LocationEntityV1alpha1 } from '@backstage/catalog-model';
@@ -240,6 +242,7 @@ export type ConflictHandlerOptions = {
   originalLocationKey: string;
   newLocationKey: string;
   logger: Logger;
+  processingDatabase?: ProcessingDatabase;
 };
 
 // @public
@@ -471,4 +474,8 @@ export class UrlReaderProcessor implements CatalogProcessor {
     cache: CatalogProcessorCache,
   ): Promise<boolean>;
 }
+
+// Warnings were encountered during analysis:
+//
+// src/catalog/types.d.ts:286:5 - (ae-forgotten-export) The symbol "ProcessingDatabase" needs to be exported by the entry point index.d.ts
 ```

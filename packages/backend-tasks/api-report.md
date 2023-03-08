@@ -20,6 +20,7 @@ export interface PluginTaskScheduler {
     task: TaskScheduleDefinition & TaskInvocationDefinition,
   ): Promise<void>;
   triggerTask(id: string): Promise<void>;
+  unscheduleTask(taskId: string): Promise<void>;
 }
 
 // @public

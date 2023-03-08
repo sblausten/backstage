@@ -149,6 +149,18 @@ export interface ProcessingDatabase {
     options: UpdateProcessedEntityErrorsOptions,
   ): Promise<void>;
 
+  /**
+   * Schedule all deferred entities for future processing.
+   */
+  addUnprocessedEntities(
+    txOpaque: Transaction,
+    options: {
+      sourceEntityRef: string;
+      entities: DeferredEntity[];
+      conflictHandler?: (options: ConflictHandlerOptions) => Promise<void>;
+    },
+  ): Promise<void>;
+
   listParents(
     txOpaque: Transaction,
     options: ListParentsOptions,
