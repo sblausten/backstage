@@ -266,7 +266,7 @@ export class DefaultSonarqubeInfoProvider implements SonarqubeInfoProvider {
    * Call an API with provided arguments
    * @param url - URL of the API to call
    * @param path - path to call
-   * @param authToken - token used as basic auth user without password
+   * @param authToken - token
    * @param query - parameters to provide to the call
    * @returns A promise on the answer to the API call if the answer status code is 200, undefined otherwise.
    * @private
@@ -277,17 +277,14 @@ export class DefaultSonarqubeInfoProvider implements SonarqubeInfoProvider {
     authToken: string,
     query: { [key in string]: any },
   ): Promise<T | undefined> {
-    // Sonarqube auth use basic with token as username and no password
-    // but standard dictate the colon (separator) need to stay here despite the
-    // lack of password
-    const encodedAuthToken = Buffer.from(`${authToken}:`).toString('base64');
+    const encodedAuthToken = Buffer.from(`${authToken}`).toString('base64');
 
     const response = await fetch(
       `${url}/${path}?${new URLSearchParams(query).toString()}`,
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Basic ${encodedAuthToken}`,
+          Authorization: `Bearer ${encodedAuthToken}`,
         },
       },
     );
