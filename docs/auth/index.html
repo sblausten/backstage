@@ -22,8 +22,8 @@
 <script src="/js/medium-zoom.js"></script>
 <script src="/js/dismissable-banner.js"></script>
 <script src="/js/scroll-nav-to-view-in-docs.js"></script><link rel="stylesheet" href="/assets/css/styles.0ffd8a10.css">
-<script src="/assets/js/runtime~main.f8bdae67.js" defer="defer"></script>
-<script src="/assets/js/main.09c0639c.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.29988ffb.js" defer="defer"></script>
+<script src="/assets/js/main.e1d56169.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return localStorage.getItem("theme")}catch(t){}}();t(null!==e?e:"dark")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus">
@@ -35,19 +35,20 @@ access external resources.</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="built-in-authentication-providers">Built-in Authentication Providers<a href="#built-in-authentication-providers" class="hash-link" aria-label="Direct link to Built-in Authentication Providers" title="Direct link to Built-in Authentication Providers">​</a></h2>
 <p>Backstage comes with many common authentication providers in the core library:</p>
 <ul>
-<li><a href="/docs/auth/atlassian/provider">Atlassian</a></li>
 <li><a href="/docs/auth/auth0/provider">Auth0</a></li>
+<li><a href="/docs/auth/atlassian/provider">Atlassian</a></li>
 <li><a href="/docs/auth/microsoft/provider">Azure</a></li>
+<li><a href="/docs/auth/microsoft/easy-auth">Azure Easy Auth</a></li>
 <li><a href="/docs/auth/bitbucket/provider">Bitbucket</a></li>
 <li><a href="/docs/auth/bitbucketServer/provider">Bitbucket Server</a></li>
-<li><a href="/docs/auth/cloudflare/cfaccess">Cloudflare Access</a></li>
+<li><a href="/docs/auth/cloudflare/provider">Cloudflare Access</a></li>
 <li><a href="/docs/auth/github/provider">GitHub</a></li>
 <li><a href="/docs/auth/gitlab/provider">GitLab</a></li>
 <li><a href="/docs/auth/google/provider">Google</a></li>
 <li><a href="/docs/auth/google/gcp-iap-auth">Google IAP</a></li>
 <li><a href="/docs/auth/okta/provider">Okta</a></li>
+<li><a href="/docs/auth/oauth2-proxy/provider">OAuth 2 Custom Proxy</a></li>
 <li><a href="/docs/auth/onelogin/provider">OneLogin</a></li>
-<li><a href="/docs/auth/oauth2-proxy/provider">OAuth2Proxy</a></li>
 </ul>
 <p>These built-in providers handle the authentication flow for a particular service
 including required scopes, callbacks, etc. These providers are each added to a
@@ -94,7 +95,7 @@ allows allowing guest access:</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="sign-in-with-proxy-providers">Sign-In with Proxy Providers<a href="#sign-in-with-proxy-providers" class="hash-link" aria-label="Direct link to Sign-In with Proxy Providers" title="Direct link to Sign-In with Proxy Providers">​</a></h2>
 <p>Some auth providers are so-called &quot;proxy&quot; providers, meaning they&#x27;re meant to be used
 behind an authentication proxy. Examples of these are
-<a href="https://github.com/backstage/backstage/blob/master/contrib/docs/tutorials/aws-alb-aad-oidc-auth.md" target="_blank" rel="noopener noreferrer">AWS ALB</a>, <a href="/docs/auth/cloudflare/cfaccess">Cloudflare Access</a>,
+<a href="https://github.com/backstage/backstage/blob/master/contrib/docs/tutorials/aws-alb-aad-oidc-auth.md" target="_blank" rel="noopener noreferrer">AWS ALB</a>, <a href="/docs/auth/cloudflare/provider">Cloudflare Access</a>,
 <a href="/docs/auth/google/gcp-iap-auth">GCP IAP</a>, and <a href="/docs/auth/oauth2-proxy/provider">OAuth2 Proxy</a>.</p>
 <p>When using a proxy provider, you&#x27;ll end up wanting to use a different sign-in page, as
 there is no need for further user interaction once you&#x27;ve signed in towards the proxy.
